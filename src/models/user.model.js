@@ -31,12 +31,6 @@ const userSchema = new Schema(
         coverImage: {
             type: String, //cloudinary url
         },
-        watchHistory: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: "Video",
-            },
-        ],
         password: {
             type: String,
             required: [true, "Password is required"],
@@ -61,7 +55,7 @@ userSchema.methods.isPasswordCorrect = async function (password) {
     return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = function () {
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
         {
             _id: this._id,
